@@ -1,0 +1,300 @@
+{
+  "info": {
+    "name": "Salud Integral - Microservicios S11",
+    "description": "Coleccion de pruebas para los microservicios de pacientes, medicos y citas. Ejecutar con los tres servicios levantados en los puertos 8080, 8081 y 8082.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "paciente_url", "value": "http://localhost:8080" },
+    { "key": "medico_url", "value": "http://localhost:8081" },
+    { "key": "citas_url", "value": "http://localhost:8082" },
+    { "key": "pacienteId", "value": "1" },
+    { "key": "especialidadId", "value": "1" },
+    { "key": "medicoId", "value": "1" },
+    { "key": "citaId", "value": "1" },
+    { "key": "atencionId", "value": "1" }
+  ],
+  "item": [
+    {
+      "name": "Pacientes",
+      "item": [
+        {
+          "name": "Crear paciente",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const data = pm.response.json();",
+                  "pm.collectionVariables.set('pacienteId', data.idPaciente);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"dni\": \"12345678\",\n  \"nombres\": \"Juan\",\n  \"apellidos\": \"Perez Gomez\",\n  \"fechaNacimiento\": \"1990-05-12\",\n  \"sexo\": \"M\",\n  \"telefono\": \"987654321\",\n  \"direccion\": \"Av. Javier Prado 123, Lima\",\n  \"correo\": \"juan.perez@correo.com\",\n  \"estado\": \"A\"\n}"
+            },
+            "url": { "raw": "{{paciente_url}}/api/pacientes", "host": ["{{paciente_url}}"], "path": ["api", "pacientes"] }
+          }
+        },
+        {
+          "name": "Listar pacientes",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{paciente_url}}/api/pacientes", "host": ["{{paciente_url}}"], "path": ["api", "pacientes"] }
+          }
+        },
+        {
+          "name": "Obtener paciente",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{paciente_url}}/api/pacientes/{{pacienteId}}", "host": ["{{paciente_url}}"], "path": ["api", "pacientes", "{{pacienteId}}"] }
+          }
+        },
+        {
+          "name": "Actualizar paciente",
+          "request": {
+            "method": "PUT",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"dni\": \"12345678\",\n  \"nombres\": \"Juan Carlos\",\n  \"apellidos\": \"Perez Gomez\",\n  \"fechaNacimiento\": \"1990-05-12\",\n  \"sexo\": \"M\",\n  \"telefono\": \"987654321\",\n  \"direccion\": \"Av. Javier Prado 456, Lima\",\n  \"correo\": \"juancarlos.perez@correo.com\",\n  \"estado\": \"A\"\n}"
+            },
+            "url": { "raw": "{{paciente_url}}/api/pacientes/{{pacienteId}}", "host": ["{{paciente_url}}"], "path": ["api", "pacientes", "{{pacienteId}}"] }
+          }
+        },
+        {
+          "name": "Eliminar paciente",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": { "raw": "{{paciente_url}}/api/pacientes/{{pacienteId}}", "host": ["{{paciente_url}}"], "path": ["api", "pacientes", "{{pacienteId}}"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Medicos",
+      "item": [
+        {
+          "name": "Crear especialidad",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const data = pm.response.json();",
+                  "pm.collectionVariables.set('especialidadId', data.idEspecialidad);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombre\": \"Cardiologia\",\n  \"descripcion\": \"Diagnostico y tratamiento del corazon\",\n  \"estado\": \"A\"\n}"
+            },
+            "url": { "raw": "{{medico_url}}/api/especialidades", "host": ["{{medico_url}}"], "path": ["api", "especialidades"] }
+          }
+        },
+        {
+          "name": "Listar especialidades",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{medico_url}}/api/especialidades", "host": ["{{medico_url}}"], "path": ["api", "especialidades"] }
+          }
+        },
+        {
+          "name": "Crear medico",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const data = pm.response.json();",
+                  "pm.collectionVariables.set('medicoId', data.idMedico);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"cmp\": \"CMP12345\",\n  \"nombres\": \"Ana\",\n  \"apellidos\": \"Torres Ruiz\",\n  \"telefono\": \"999888777\",\n  \"correo\": \"ana.torres@clinica.com\",\n  \"idEspecialidad\": {{especialidadId}},\n  \"estado\": \"A\"\n}"
+            },
+            "url": { "raw": "{{medico_url}}/api/medicos", "host": ["{{medico_url}}"], "path": ["api", "medicos"] }
+          }
+        },
+        {
+          "name": "Listar medicos",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{medico_url}}/api/medicos", "host": ["{{medico_url}}"], "path": ["api", "medicos"] }
+          }
+        },
+        {
+          "name": "Listar medicos por especialidad",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{medico_url}}/api/medicos?idEspecialidad={{especialidadId}}",
+              "host": ["{{medico_url}}"],
+              "path": ["api", "medicos"],
+              "query": [{ "key": "idEspecialidad", "value": "{{especialidadId}}" }]
+            }
+          }
+        },
+        {
+          "name": "Crear horario",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"idMedico\": {{medicoId}},\n  \"diaSemana\": \"LUNES\",\n  \"horaInicio\": \"09:00:00\",\n  \"horaFin\": \"13:00:00\"\n}"
+            },
+            "url": { "raw": "{{medico_url}}/api/horarios", "host": ["{{medico_url}}"], "path": ["api", "horarios"] }
+          }
+        },
+        {
+          "name": "Listar horarios del medico",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{medico_url}}/api/horarios?idMedico={{medicoId}}",
+              "host": ["{{medico_url}}"],
+              "path": ["api", "horarios"],
+              "query": [{ "key": "idMedico", "value": "{{medicoId}}" }]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Citas y atenciones",
+      "item": [
+        {
+          "name": "Crear cita",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const data = pm.response.json();",
+                  "pm.collectionVariables.set('citaId', data.idCita);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"fecha\": \"2026-11-10\",\n  \"hora\": \"10:30:00\",\n  \"idPaciente\": {{pacienteId}},\n  \"idMedico\": {{medicoId}},\n  \"motivo\": \"Control cardiologico\"\n}"
+            },
+            "url": { "raw": "{{citas_url}}/api/citas", "host": ["{{citas_url}}"], "path": ["api", "citas"] }
+          }
+        },
+        {
+          "name": "Listar citas",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{citas_url}}/api/citas", "host": ["{{citas_url}}"], "path": ["api", "citas"] }
+          }
+        },
+        {
+          "name": "Obtener cita",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{citas_url}}/api/citas/{{citaId}}", "host": ["{{citas_url}}"], "path": ["api", "citas", "{{citaId}}"] }
+          }
+        },
+        {
+          "name": "Actualizar cita",
+          "request": {
+            "method": "PUT",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"fecha\": \"2026-11-10\",\n  \"hora\": \"11:00:00\",\n  \"idPaciente\": {{pacienteId}},\n  \"idMedico\": {{medicoId}},\n  \"motivo\": \"Control cardiologico reprogramado\"\n}"
+            },
+            "url": { "raw": "{{citas_url}}/api/citas/{{citaId}}", "host": ["{{citas_url}}"], "path": ["api", "citas", "{{citaId}}"] }
+          }
+        },
+        {
+          "name": "Cambiar estado de cita",
+          "request": {
+            "method": "PATCH",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"estado\": \"CONFIRMADA\"\n}"
+            },
+            "url": { "raw": "{{citas_url}}/api/citas/{{citaId}}/estado", "host": ["{{citas_url}}"], "path": ["api", "citas", "{{citaId}}", "estado"] }
+          }
+        },
+        {
+          "name": "Cancelar cita",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": { "raw": "{{citas_url}}/api/citas/{{citaId}}", "host": ["{{citas_url}}"], "path": ["api", "citas", "{{citaId}}"] }
+          }
+        },
+        {
+          "name": "Registrar atencion",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const data = pm.response.json();",
+                  "pm.collectionVariables.set('atencionId', data.idAtencion);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"idCita\": {{citaId}},\n  \"diagnostico\": \"Hipertension arterial controlada\",\n  \"tratamiento\": \"Losartan 50 mg cada 24 horas\",\n  \"observaciones\": \"Control en 30 dias\"\n}"
+            },
+            "url": { "raw": "{{citas_url}}/api/atenciones", "host": ["{{citas_url}}"], "path": ["api", "atenciones"] }
+          }
+        },
+        {
+          "name": "Consultar atencion por cita",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{citas_url}}/api/atenciones/cita/{{citaId}}", "host": ["{{citas_url}}"], "path": ["api", "atenciones", "cita", "{{citaId}}"] }
+          }
+        }
+      ]
+    }
+  ]
+}
